@@ -21,7 +21,7 @@ class App:
         self.board = list(range(9))
         self.moves = 0
         self.shuffle_board()
-        
+
         # Solution animation variables
         self.solving = False
         self.solution_path = []
@@ -32,7 +32,7 @@ class App:
         self.solution_time = 0
         self.solution_length = 0
         self.current_algorithm = ""
-        
+
         # Button definitions
         self.buttons = [
             {"name": "BFS", "y": 5},
@@ -44,9 +44,9 @@ class App:
             {"name": "A*", "y": 95},
             {"name": "IDA*", "y": 110}
         ]
-        
+
         pyxel.run(self.update, self.draw)
-        
+
     def shuffle_board(self):
         while True:
             self.board = random.sample(range(9), 9)
@@ -136,14 +136,14 @@ class App:
                     visited[neighbor] = current
                     queue.append(neighbor)
                     states_visited += 1
-        
+
         return [], states_visited, time.time() - start_time
 
     # DFS
     def solve_dfs(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
@@ -151,63 +151,63 @@ class App:
         stack = [start]
         visited = {start: None}
         states_visited = 1
-        
+
         while stack:
             current = stack.pop()
-            
+
             if current == goal:
                 return self.reconstruct_path(visited, start, goal), states_visited, time.time() - start_time
-            
+
             for neighbor in self.get_neighbors(current):
                 if neighbor not in visited:
                     visited[neighbor] = current
                     stack.append(neighbor)
                     states_visited += 1
-        
+
         return [], states_visited, time.time() - start_time
 
     # Iterative Deepening Search
     def solve_ids(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
         start_time = time.time()
         total_states = 0
-        
+
         for depth in range(50):  # Max depth limit
             result, states = self.dls(start, goal, depth)
             total_states += states
             if result is not None:
                 return result, total_states, time.time() - start_time
-        
+
         return [], total_states, time.time() - start_time
 
     def dls(self, start, goal, max_depth):
         stack = [(start, 0, [start])]
         states_visited = 0
-        
+
         while stack:
             current, depth, path = stack.pop()
             states_visited += 1
-            
+
             if current == goal:
                 return self.path_to_moves(path), states_visited
-            
+
             if depth < max_depth:
                 for neighbor in self.get_neighbors(current):
                     if neighbor not in path:  # Avoid cycles
                         stack.append((neighbor, depth + 1, path + [neighbor]))
-        
+
         return None, states_visited
 
     # Uniform Cost Search
     def solve_ucs(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
@@ -215,27 +215,27 @@ class App:
         heap = [(0, start)]
         visited = {start: (None, 0)}
         states_visited = 1
-        
+
         while heap:
             cost, current = heapq.heappop(heap)
-            
+
             if current == goal:
                 return self.reconstruct_path_ucs(visited, start, goal), states_visited, time.time() - start_time
-            
+
             for neighbor in self.get_neighbors(current):
                 new_cost = cost + 1
                 if neighbor not in visited or new_cost < visited[neighbor][1]:
                     visited[neighbor] = (current, new_cost)
                     heapq.heappush(heap, (new_cost, neighbor))
                     states_visited += 1
-        
+
         return [], states_visited, time.time() - start_time
 
     # Bidirectional Search
     def solve_bidirectional(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
@@ -245,14 +245,14 @@ class App:
         forward_visited = {start: None}
         backward_visited = {goal: None}
         states_visited = 2
-        
+
         while forward_queue or backward_queue:
             # Alternate between forward and backward search
             if forward_queue:
                 current = forward_queue.popleft()
                 if current in backward_visited:
                     return self.reconstruct_bidirectional_path(forward_visited, backward_visited, start, goal, current), states_visited, time.time() - start_time
-                
+
                 for neighbor in self.get_neighbors(current):
                     if neighbor not in forward_visited:
                         forward_visited[neighbor] = current
@@ -261,12 +261,12 @@ class App:
                         # Check if we found a connection
                         if neighbor in backward_visited:
                             return self.reconstruct_bidirectional_path(forward_visited, backward_visited, start, goal, neighbor), states_visited, time.time() - start_time
-            
+
             if backward_queue:
                 current = backward_queue.popleft()
                 if current in forward_visited:
                     return self.reconstruct_bidirectional_path(forward_visited, backward_visited, start, goal, current), states_visited, time.time() - start_time
-                
+
                 for neighbor in self.get_neighbors(current):
                     if neighbor not in backward_visited:
                         backward_visited[neighbor] = current
@@ -275,14 +275,14 @@ class App:
                         # Check if we found a connection
                         if neighbor in forward_visited:
                             return self.reconstruct_bidirectional_path(forward_visited, backward_visited, start, goal, neighbor), states_visited, time.time() - start_time
-        
+
         return [], states_visited, time.time() - start_time
 
     # Greedy Best-First Search
     def solve_greedy(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
@@ -290,26 +290,26 @@ class App:
         heap = [(self.manhattan_distance(start), start)]
         visited = {start: None}
         states_visited = 1
-        
+
         while heap:
             _, current = heapq.heappop(heap)
-            
+
             if current == goal:
                 return self.reconstruct_path(visited, start, goal), states_visited, time.time() - start_time
-            
+
             for neighbor in self.get_neighbors(current):
                 if neighbor not in visited:
                     visited[neighbor] = current
                     heapq.heappush(heap, (self.manhattan_distance(neighbor), neighbor))
                     states_visited += 1
-        
+
         return [], states_visited, time.time() - start_time
 
     # A* Search
     def solve_astar(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
@@ -317,36 +317,36 @@ class App:
         heap = [(self.manhattan_distance(start), 0, start)]
         visited = {start: (None, 0)}
         states_visited = 1
-        
+
         while heap:
             f_cost, g_cost, current = heapq.heappop(heap)
-            
+
             if current == goal:
                 return self.reconstruct_path_ucs(visited, start, goal), states_visited, time.time() - start_time
-            
+
             for neighbor in self.get_neighbors(current):
                 new_g_cost = g_cost + 1
                 new_f_cost = new_g_cost + self.manhattan_distance(neighbor)
-                
+
                 if neighbor not in visited or new_g_cost < visited[neighbor][1]:
                     visited[neighbor] = (current, new_g_cost)
                     heapq.heappush(heap, (new_f_cost, new_g_cost, neighbor))
                     states_visited += 1
-        
+
         return [], states_visited, time.time() - start_time
 
     # IDA* Search
     def solve_ida_star(self):
         start = tuple(self.board)
         goal = self.goal
-        
+
         if start == goal:
             return [], 1, 0
 
         start_time = time.time()
         threshold = self.manhattan_distance(start)
         total_states = 0
-        
+
         while threshold < 100:  # Max threshold limit
             result, states, next_threshold = self.ida_star_search(start, goal, 0, threshold, [start])
             total_states += states
@@ -355,7 +355,7 @@ class App:
             if next_threshold == float('inf'):
                 break
             threshold = next_threshold
-        
+
         return [], total_states, time.time() - start_time
 
     def ida_star_search(self, current, goal, g_cost, threshold, path):
@@ -364,10 +364,10 @@ class App:
             return None, 1, f_cost
         if current == goal:
             return self.path_to_moves(path), 1, 0
-        
+
         min_threshold = float('inf')
         states_visited = 1
-        
+
         for neighbor in self.get_neighbors(current):
             if neighbor not in path:
                 result, states, next_t = self.ida_star_search(neighbor, goal, g_cost + 1, threshold, path + [neighbor])
@@ -376,7 +376,7 @@ class App:
                     return result, states_visited, 0
                 if next_t < min_threshold:
                     min_threshold = next_t
-        
+
         return None, states_visited, min_threshold
 
     def reconstruct_path(self, visited, start, goal):
@@ -416,7 +416,7 @@ class App:
                 forward_path.append(curr_empty)
             current = prev
         forward_path.reverse()
-        
+
         # Build backward path from meeting point to goal
         backward_path = []
         current = meeting_point
@@ -431,7 +431,7 @@ class App:
                 current = next_state
             else:
                 break
-        
+
         return forward_path + backward_path
 
     def path_to_moves(self, state_path):
@@ -445,7 +445,7 @@ class App:
         if not self.solving:
             self.current_algorithm = algorithm
             start_time = time.time()
-            
+
             if algorithm == "BFS":
                 path, states, solve_time = self.solve_bfs()
             elif algorithm == "DFS":
@@ -464,12 +464,12 @@ class App:
                 path, states, solve_time = self.solve_ida_star()
             else:
                 return
-            
+
             self.solution_path = path
             self.states_visited = states
             self.solution_time = solve_time
             self.solution_length = len(path)
-            
+
             if path:
                 self.solving = True
                 self.current_step = 0
@@ -496,7 +496,7 @@ class App:
     def update(self):
         if self.solving:
             self.update_animation()
-            
+
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             # Puzzle area interaction
             puzzle_x = self.left_panel_width
@@ -523,7 +523,7 @@ class App:
 
     def draw(self):
         pyxel.cls(1)
-        
+
         # Draw puzzle tiles
         puzzle_x = self.left_panel_width
         for i, value in enumerate(self.board):
@@ -543,11 +543,11 @@ class App:
         # Right panel
         right_panel_x = self.screen_width - self.right_panel_width
         pyxel.rect(right_panel_x, 0, self.right_panel_width, self.screen_height, 12)
-        
+
         # Moves counter
         pyxel.text(right_panel_x + 5, 15, "MOVES:", 0)
         pyxel.text(right_panel_x + 5, 25, str(self.moves), 7)
-        
+
         # Stats
         if self.solution_length > 0:
             pyxel.text(right_panel_x + 5, 45, "STATS:", 0)
