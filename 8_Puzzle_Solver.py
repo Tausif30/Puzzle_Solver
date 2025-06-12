@@ -551,7 +551,7 @@ class App:
         # Stats
         if self.solution_length > 0:
             pyxel.text(right_panel_x + 5, 45, "STATS:", 0)
-            pyxel.text(right_panel_x + 5, 55, f"Opt:{self.solution_length}", 7)
+            pyxel.text(right_panel_x + 5, 55, f"Move:{self.solution_length}", 7)
             pyxel.text(right_panel_x + 5, 65, f"States:{self.states_visited}", 7)
 
         # Shuffle button
