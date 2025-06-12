@@ -291,7 +291,7 @@ class PuzzleSolver:
 
         while heap:
             max_heap_size = max(max_heap_size, len(heap))
-            _, current = heapq.heappop(heap)
+            current = heapq.heappop(heap)[1]
 
             if current == goal:
                 path_length = self.reconstruct_path(visited, start, goal)

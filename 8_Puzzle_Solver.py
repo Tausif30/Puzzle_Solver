@@ -292,7 +292,7 @@ class App:
         states_visited = 1
 
         while heap:
-            _, current = heapq.heappop(heap)
+            current = heapq.heappop(heap)[1]
 
             if current == goal:
                 return self.reconstruct_path(visited, start, goal), states_visited, time.time() - start_time
