@@ -107,7 +107,7 @@ class PuzzleSolver:
         return -1, states_visited, max_queue_size
 
     def solve_dfs(self, board):
-        """Depth-First Search"""
+        """Depth-First Search - Memory efficient version"""
         start = tuple(board)
         goal = self.goal
 
@@ -115,24 +115,29 @@ class PuzzleSolver:
             return 0, 1, 0
 
         start_time = time.time()
-        stack = [start]
-        visited = {start: None}
+        # Stack stores tuples of (state, path) where path is a list of states from start
+        stack = [(start, [start])]
         states_visited = 1
         max_stack_size = 1
+        
+        # Set a reasonable depth limit to prevent infinite loops
+        max_depth = 500
 
         while stack:
             max_stack_size = max(max_stack_size, len(stack))
-            current = stack.pop()
+            current, path = stack.pop()
 
             if current == goal:
-                path_length = self.reconstruct_path(visited, start, goal)
-                return path_length, states_visited, max_stack_size
+                return len(path) - 1, states_visited, max_stack_size
 
-            for neighbor in self.get_neighbors(current):
-                if neighbor not in visited:
-                    visited[neighbor] = current
-                    stack.append(neighbor)
-                    states_visited += 1
+            # Only expand if we haven't exceeded depth limit
+            if len(path) < max_depth:
+                for neighbor in self.get_neighbors(current):
+                    # Avoid immediate cycles by checking if neighbor is not in recent path
+                    if neighbor not in path[-3:]:  # Avoid last 3 states to prevent immediate cycles
+                        new_path = path + [neighbor]
+                        stack.append((neighbor, new_path))
+                        states_visited += 1
 
         return -1, states_visited, max_stack_size
 
