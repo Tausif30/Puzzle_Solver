@@ -16,7 +16,7 @@
 </ul>
 <br>
 <H3>Game Look</H3>
-![Game](https://github.com/user-attachments/assets/5aed9455-8d24-429d-8321-71c9b52a725a)
+![Game](https://github.com/user-attachments/assets/26ba749c-dda3-4519-8166-2fa1fc41b430)
 
 
 <H3>Solved Game (used A* for this one)</H3>
