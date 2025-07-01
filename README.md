@@ -16,17 +16,20 @@
 </ul>
 <br>
 <H3>Game Look</H3>
-![Game](https://github.com/user-attachments/assets/c2469a32-5d3c-4167-accc-29e930e17909)
-<H3>Solved Game (used A* for this one)</H3>
-![Game_Solved](https://github.com/user-attachments/assets/09463a4a-dd65-4cf2-bb9d-66a4d79de468)
+![Game](https://github.com/user-attachments/assets/9c9e395a-7595-461b-94f0-0d307edb7e1e)
 
+<H3>Solved Game (used A* for this one)</H3>
+![Game_Solved](https://github.com/user-attachments/assets/d2e3a168-bd39-4c5e-8772-c15d7923485b)
 
 <H1>Performances</H1>
 <H3>State Complexity</H3>
-![States](https://github.com/user-attachments/assets/603db0c7-599d-4aa9-993a-93f4109aee40)
+![States](https://github.com/user-attachments/assets/3e153abe-2525-4406-b9f8-34868b1d1df8)
+
 <H3>Space Complexity</H3>
-![Space](https://github.com/user-attachments/assets/c25086bd-551f-40a0-8afb-bff9828f9aa4)
+![Space](https://github.com/user-attachments/assets/4df70de5-7e18-41c8-b8a6-0ea8214a76e6)
+
 <H3>Time Needed</H3>
-![Time](https://github.com/user-attachments/assets/b866eb4d-ba72-439a-a760-9f10ae8c2095)
+![Time](https://github.com/user-attachments/assets/438f26e0-1da5-4737-a346-91338d0e8371)
+
 <H3>Optimality of Game</H3>
-![Moves](https://github.com/user-attachments/assets/faf89a9e-b869-4857-9bbe-b601689586a4)
+![Moves](https://github.com/user-attachments/assets/ddf283f7-3cac-4b12-b4f9-9c56aacd3ff6)
