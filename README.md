@@ -16,21 +16,30 @@
 </ul>
 <br>
 <H3>Game Look</H3>
-![Game](https://github.com/user-attachments/assets/26ba749c-dda3-4519-8166-2fa1fc41b430)
 
+![Game](https://github.com/user-attachments/assets/e944bfd7-c676-473e-863e-dc936b5f834d)
 
 <H3>Solved Game (used A* for this one)</H3>
-![Game_Solved](https://github.com/user-attachments/assets/d2e3a168-bd39-4c5e-8772-c15d7923485b)
 
-<H1>Performances</H1>
+![Game_Solved](https://github.com/user-attachments/assets/db64641d-91fc-422b-b324-f2304cee3088)
+
+
+<H1>Performance (Data collected over 10 runs)</H1>
+<br>
 <H3>State Complexity</H3>
-![States](https://github.com/user-attachments/assets/3e153abe-2525-4406-b9f8-34868b1d1df8)
+
+![States](https://github.com/user-attachments/assets/4ec8400f-7d9f-4d61-ad9b-9c94d29d043b)
 
 <H3>Space Complexity</H3>
-![Space](https://github.com/user-attachments/assets/4df70de5-7e18-41c8-b8a6-0ea8214a76e6)
 
-<H3>Time Needed</H3>
-![Time](https://github.com/user-attachments/assets/438f26e0-1da5-4737-a346-91338d0e8371)
+![Space](https://github.com/user-attachments/assets/05ef3221-82e7-4d90-89b0-37977b9526be)
 
-<H3>Optimality of Game</H3>
-![Moves](https://github.com/user-attachments/assets/ddf283f7-3cac-4b12-b4f9-9c56aacd3ff6)
+<H3>Time Complexity</H3>
+
+![Time](https://github.com/user-attachments/assets/d27f9128-4fb1-4ecc-81e1-36f2e24e7ea0)
+
+<H3>Optimality</H3>
+
+![Moves](https://github.com/user-attachments/assets/1b3e11f9-c2ff-409e-8aa7-30da68967139)
+
+<H5>Added a failsafe of 500 moves for DFS</H5>
